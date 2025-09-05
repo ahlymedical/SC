@@ -18,7 +18,6 @@
         --white: #ffffff;
         --text-dark: #212529;
         --text-muted: #6c757d;
-        --whatsapp-green: #25D366;
         --danger-red: #dc3545;
         --primary-glow: rgba(6, 100, 58, 0.4);
         --orange-glow: rgba(232, 108, 36, 0.7);
@@ -122,10 +121,6 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     @keyframes sheen { 0% { left: -60%; } 100% { left: 140%; } }
 
-    .recommendation-header .icon .svg-icon {
-        width: 100%; height: 100%; -webkit-mask-size: contain; mask-size: contain;
-        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; background-color: var(--dark-green); 
-    }
     .recommendation-header .icon .fa-solid { font-size: 28px; color: var(--dark-green); }
     .recommendation-header h3 { margin: 0; font-size: 20px; color: var(--text-dark); }
     .recommendation-badge { background-color: var(--dark-green); color: white; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 12px; margin-right: auto; }
@@ -140,15 +135,16 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .section-title { background-color: var(--dark-green); color: var(--white); padding: 12px 20px; border-radius: 10px; margin-top: 35px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
     .section-title .icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
-    .section-title .icon svg { width: 100%; height: 100%; fill: var(--white); transition: transform 0.4s ease-in-out; }
+    .section-title .icon .fa-solid { font-size: 28px; transition: transform 0.3s ease-in-out; }
     
-    /* === NEW ANIMATION FOR SVG ICONS ON HOVER === */
-    .section-title:hover .icon svg {
-        animation: spin-once 0.8s ease-in-out;
+    /* === NEW ANIMATION FOR ICONS ON HOVER === */
+    .section-title:hover .icon .fa-solid {
+        animation: pulse-grow 1s ease-in-out;
     }
-    @keyframes spin-once {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    @keyframes pulse-grow {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
     }
     /* === END OF NEW ANIMATION === */
 
@@ -322,43 +318,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const allClinicsFullData = [
         { id: "الباطنة-والجهاز-الهضمي-والكبد", doctors: [ { name: "د. عبد الرحيم الطيب (اخصائي)", en_name: "Dr. Abdelrahim Eltayeb", schedule: { "الأحد": "02:00 PM", "الأربعاء": "02:00 PM" } } ] },
         { id: "مسالك", doctors: [ { name: "د. احمد شفیع (استشاري)", en_name: "Dr. Ahmed Shafie", schedule: { "الأحد": "06:00 PM", "الأربعاء": "06:00 PM" } } ] },
-        { id: "باطنة-عامة", doctors: [ { name: "د. ندين (اخصائي)", en_name: "Dr. Nadine", schedule: { "الأحد": "10:00 AM", "الثلاثاء": "10:00 AM" } }, { name: "د. انجى يسرى (اخصائي)", en_name: "Dr. Engy Yousry", schedule: { "الإثنين": "10:00 AM", "الخميس": "10:00 AM" } }, { name: "د. هاله (اخصائي)", en_name: "Dr. Hala", schedule: { "الأربعاء": "10:00 AM" } } ] },
+        { id: "باطنة-عامة", doctors: [ { name: "د. ندين (اخصائي)", en_name: "Dr. Nadine", schedule: { "السبت": "10:00 AM - 01:00 PM", "الإثنين": "10:00 AM - 01:00 PM" } }, { name: "د. انجى يسرى (اخصائي)", en_name: "Dr. Engy Yousry", schedule: { "الأحد": "10:00 AM - 01:00 PM", "الأربعاء": "10:00 AM - 01:00 PM", "الخميس": "10:00 AM - 01:00 PM" } }, { name: "د. هاله (اخصائي)", en_name: "Dr. Hala", schedule: { "الثلاثاء": "10:00 AM - 01:00 PM" } } ] },
         { id: "غدد-صماء-وسكر", doctors: [ { name: "د. احمد سامی (استشاري)", en_name: "Dr. Ahmed Samy", schedule: { "السبت": "08:00 PM", "الثلاثاء": "08:00 PM" } } ] },
-        { id: "القلب-والإيكو", doctors: [ { name: "د. محمود سعید (اخصائي)", en_name: "Dr. Mahmoud Saeed", schedule: { "السبت": "08:00 PM" } }, { name: "د. محمد نبيل (استشاري)", en_name: "Dr. Mohamed Nabil", schedule: { "الإثنين": "07:00 PM", "الخميس": "07:00 PM" } }, { name: "د. غاده عادل (استشاري)", en_name: "Dr. Ghada Adel", schedule: { "الأحد": "10:00 AM", "الثلاثاء": "10:00 AM", "الأربعاء": "10:00 AM" } } ] },
-        { id: "السونار-والدوبلكس", doctors: [ { name: "د. أحمد عثمان (اخصائي)", en_name: "Dr. Ahmed Othman", schedule: { "الأحد": "03:00 PM", "الأربعاء": "03:00 PM" } }, { name: "د. مصطفی عثمان (اخصائي)", en_name: "Dr. Mostafa Othman", schedule: { "الإثنين": "03:00 PM" } }, { name: "د. كريم فاروق (اخصائي)", en_name: "Dr. Karim Farouk", schedule: { "الخميس": "03:00 PM" } }, { name: "د. إسلام مصطفی (اخصائي)", en_name: "Dr. Islam Mostafa", schedule: { "الثلاثاء": "03:00 PM" } } ] },
-        { id: "جراحة-التجميل", doctors: [ { name: "د. يحيى خالد (اخصائي)", en_name: "Dr. Yehia Khaled", schedule: { "الإثنين": "09:00 PM" } } ] },
-        { id: "عظام", doctors: [ { name: "د. محمد صلاح (استشاري)", en_name: "Dr. Mohamed Salah", schedule: { "الثلاثاء": "07:00 PM", "الأربعاء": "07:00 PM" } }, { name: "د. هديل العجيلي (استشاري)", en_name: "Dr. Hadeel Al-Ajili", schedule: { "الإثنين": "07:00 PM", "الخميس": "07:00 PM" } } ] },
-        { id: "جلدية-وليزر", doctors: [ { name: "د. دينا امیر (استشاري)", en_name: "Dr. Dina Amir", schedule: { "السبت": "10:00 AM", "الإثنين": "10:00 AM", "الأربعاء": "10:00 AM" } }, { name: "د. ياسمين احمد (اخصائي)", en_name: "Dr. Yasmine Ahmed", schedule: { "الخميس": "06:00 PM" } } ] }
+        { id: "القلب-والإيكو", doctors: [ { name: "د. محمود سعید (اخصائي)", en_name: "Dr. Mahmoud Saeed", schedule: { "السبت": "10:00 AM - 07:00 PM" } }, { name: "د. وسيم (اخصائي)", en_name: "Dr. Waseem", schedule: { "الإثنين": "10:00 AM - 07:00 PM" } }, { name: "د. محمد نبيل (استشاري)", en_name: "Dr. Mohamed Nabil", schedule: { "الإثنين": "07:00 PM - 09:00 PM", "الخميس": "07:00 PM - 09:00 PM" } }, { name: "د. غاده عادل (استشاري)", en_name: "Dr. Ghada Adel", schedule: { "الأحد": "10:00 AM - 03:00 PM", "الثلاثاء": "10:00 AM - 07:00 PM", "الأربعاء": "10:00 AM - 07:00 PM" } } ] },
+        { id: "السونار-والدوبلكس", doctors: [ { name: "د. أحمد عثمان (اخصائي)", en_name: "Dr. Ahmed Othman", schedule: { "الأحد": "03:00 PM", "الأربعاء": "03:00 PM" } }, { name: "د. مصطفی عثمان (اخصائي)", en_name: "Dr. Mostafa Othman", schedule: { "الإثنين": "03:00 PM" } }, { name: "د. إسلام مصطفی (اخصائي)", en_name: "Dr. Islam Mostafa", schedule: { "الثلاثاء": "03:00 PM" } }, { name: "د. كريم فاروق (اخصائي)", en_name: "Dr. Karim Farouk", schedule: { "الخميس": "03:00 PM" } } ] },
+        { id: "جراحة-التجميل", doctors: [ { name: "د. يحيى خالد (اخصائي)", en_name: "Dr. Yehia Khaled", schedule: { "الإثنين": "09:00 PM", "الأربعاء": "09:00 PM" } } ] },
+        { id: "عظام", doctors: [ { name: "د. هديل العجيلي (استشاري)", en_name: "Dr. Hadeel Al-Ajili", schedule: { "الإثنين": "07:00 PM", "الخميس": "07:00 PM" } }, { name: "د. محمد صلاح (استشاري)", en_name: "Dr. Mohamed Salah", schedule: { "الثلاثاء": "07:00 PM", "الأربعاء": "07:00 PM" } } ] },
+        { id: "جلدية-وليزر", doctors: [ { name: "د. دينا امیر (استشاري)", en_name: "Dr. Dina Amir", schedule: { "السبت": "10:00 AM - 03:00 PM", "الإثنين": "10:00 AM - 03:00 PM", "الأربعاء": "10:00 AM - 03:00 PM" } }, { name: "د. ياسمين احمد (اخصائي)", en_name: "Dr. Yasmine Ahmed", schedule: { "الخميس": "06:00 PM - 10:00 PM" } } ] }
     ];
 
     // =================================================================================
-    // START: NEW PROFESSIONAL SVG ICONS (INLINE)
+    // START: NEW PROFESSIONAL ICONS (FONT AWESOME)
     // =================================================================================
-    const clinicIcons = {
-        "الباطنة-والجهاز-الهضمي-والكبد": `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 10c-2.76 0-5-2.24-5-5h2c0 1.65 1.35 3 3 3s3-1.35 3-3h2c0 2.76-2.24 5-5 5z"/></svg>`,
-        "مسالك": `<svg viewBox="0 0 24 24"><path d="M12 2c-5.52 0-10 4.48-10 10s10 12 10 12 10-6.48 10-12S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>`,
-        "باطنة-عامة": `<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"/></svg>`,
-        "غدد-صماء-وسكر": `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.6 13.71L12 18.4l-4.6-2.69.9-1.56 3.7 2.16 3.7-2.16.9 1.56zM12 13.5l-4.6-2.69.9-1.56 3.7 2.16 3.7-2.16.9 1.56L12 13.5zM12 8.5l-4.6-2.69.9-1.56 3.7 2.16 3.7-2.16.9 1.56L12 8.5z"/></svg>`,
-        "القلب-والإيكو": `<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
-        "السونار-والدوبلكس": `<svg viewBox="0 0 24 24"><path d="M3 17.25V6.75a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 6.75v10.5A2.25 2.25 0 0 1 18.75 20h-13.5A2.25 2.25 0 0 1 3 17.25zM5.25 6a.75.75 0 0 0-.75.75v10.5c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75V6.75a.75.75 0 0 0-.75-.75H5.25z"/><path d="M12 15.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM8 12.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>`,
-        "جراحة-التجميل": `<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-12h2v4h-2zm0 6h2v2h-2z"/></svg>`,
-        "عظام": `<svg viewBox="0 0 24 24"><path d="M9 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zM3 9c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2s2-.9 2-2v-2c0-1.1-.9-2-2-2zm18 0c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2s2-.9 2-2v-2c0-1.1-.9-2-2-2z"/></svg>`,
-        "جلدية-وليزر": `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>`
-    };
-
     const clinicsDisplayData = [
-        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology" },
-        { id: "مسالك", name: "المسالك البولية", en_name: "Urology" },
-        { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine" },
-        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes" },
-        { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography" },
-        { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler" },
-        { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery" },
-        { id: "عظام", name: "العظام", en_name: "Orthopedics" },
-        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser" }
+        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology", icon: "fa-bacterium" },
+        { id: "مسالك", name: "المسالك البولية", en_name: "Urology", icon: "fa-droplet" },
+        { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine", icon: "fa-stethoscope" },
+        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes", icon: "fa-syringe" },
+        { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography", icon: "fa-heart-pulse" },
+        { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler", icon: "fa-wave-square" },
+        { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery", icon: "fa-user-doctor" },
+        { id: "عظام", name: "العظام", en_name: "Orthopedics", icon: "fa-bone" },
+        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser", icon: "fa-hand-sparkles" }
     ].map(clinic => {
         const fullData = allClinicsFullData.find(c => c.id === clinic.id);
-        return { ...clinic, doctors: fullData ? fullData.doctors : [], icon: clinicIcons[clinic.id] };
+        return { ...clinic, doctors: fullData ? fullData.doctors : [] };
     });
     // =================================================================================
     // END OF DATA
@@ -380,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title.className = 'section-title';
             
             title.innerHTML = `
-                <div class="icon">${clinic.icon}</div>
+                <div class="icon"><i class="fa-solid ${clinic.icon}"></i></div>
                 <div class="title-text">
                     <h2>${clinic.name}</h2>
                     <h3 class="en">${clinic.en_name}</h3>
@@ -547,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             card.innerHTML = `
                 <div class="recommendation-header">
-                    <div class="icon">${clinicInfo.icon}</div>
+                    <div class="icon"><i class="fa-solid ${clinicInfo.icon}"></i></div>
                     <h3>${clinicInfo.name}</h3>
                     ${isPrimary ? '<span class="recommendation-badge">الترشيح الأنسب</span>' : '<span class="recommendation-badge" style="background-color: #6c757d;">ترشيح بديل</span>'}
                 </div>
@@ -565,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
         recommendationResultContainer.innerHTML = `
             <div class="recommendation-card primary-recommendation">
                  <div class="recommendation-header">
-                    <div class="icon">${clinicInfo.icon}</div>
+                    <div class="icon"><i class="fa-solid ${clinicInfo.icon}"></i></div>
                     <h3>الباطنة العامة</h3>
                     <span class="recommendation-badge">الترشيح المبدئي</span>
                 </div>
@@ -670,7 +654,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 recommendationsHtml = `
                     <h3 class="analysis-section-title">العيادة الموصى بها</h3>
                     <div class="recommendation-header" style="margin-bottom: 15px;">
-                        <div class="icon">${clinicInfo.icon}</div>
+                        <div class="icon"><i class="fa-solid ${clinicInfo.icon}"></i></div>
                         <h3>${clinicInfo.name}</h3>
                     </div>
                     <p>${rec.reason || 'نوصي بزيارة هذه العيادة للمتابعة.'}</p>
