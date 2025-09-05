@@ -310,7 +310,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // =================================================================================
-    // START: NEW DOCTOR AND CLINIC DATA (FROM OCR)
+    // START: DOCTOR AND CLINIC DATA
     // =================================================================================
     const allClinicsFullData = [
         { id: "الباطنة-والجهاز-الهضمي-والكبد", doctors: [ { name: "د. عبد الرحيم الطيب (اخصائي)", en_name: "Dr. Abdelrahim Eltayeb", schedule: { "الأحد": "02:00 PM", "الأربعاء": "02:00 PM" } } ] },
@@ -324,16 +324,19 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: "جلدية-وليزر", doctors: [ { name: "د. دينا امیر (استشاري)", en_name: "Dr. Dina Amir", schedule: { "السبت": "10:00 AM", "الإثنين": "10:00 AM", "الأربعاء": "10:00 AM" } }, { name: "د. ياسمين احمد (اخصائي)", en_name: "Dr. Yasmine Ahmed", schedule: { "الخميس": "06:00 PM" } } ] }
     ];
 
+    // =================================================================================
+    // START: NEW PROFESSIONAL ICONS (FONT AWESOME)
+    // =================================================================================
     const clinicsDisplayData = [
-        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology", icon: "gastroenterology.svg", isSvg: true },
-        { id: "مسالك", name: "المسالك البولية", en_name: "Urology", icon: "urology.svg", isSvg: true },
+        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology", icon: "fa-stomach", isSvg: false },
+        { id: "مسالك", name: "المسالك البولية", en_name: "Urology", icon: "fa-toilet", isSvg: false },
         { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine", icon: "fa-stethoscope", isSvg: false },
-        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes", icon: "endocrinology.svg", isSvg: true },
+        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes", icon: "fa-person-dots-from-line", isSvg: false },
         { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography", icon: "fa-heart-pulse", isSvg: false },
         { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler", icon: "fa-wave-square", isSvg: false },
         { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery", icon: "fa-wand-magic-sparkles", isSvg: false },
-        { id: "عظام", name: "العظام", en_name: "Orthopedics", icon: "orthopedics.svg", isSvg: true },
-        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser", icon: "dermatology.svg", isSvg: true }
+        { id: "عظام", name: "العظام", en_name: "Orthopedics", icon: "fa-bone", isSvg: false },
+        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser", icon: "fa-spa", isSvg: false }
     ].map(clinic => {
         const fullData = allClinicsFullData.find(c => c.id === clinic.id);
         return { ...clinic, doctors: fullData ? fullData.doctors : [] };
