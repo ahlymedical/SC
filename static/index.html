@@ -111,6 +111,11 @@
         position: relative; 
         overflow: hidden; 
     }
+    .recommendation-header .icon svg {
+        width: 100%;
+        height: 100%;
+        fill: var(--dark-green);
+    }
     .recommendation-card.primary-recommendation .recommendation-header .icon { animation: pulse 1.5s infinite ease-in-out; }
     
     .recommendation-card.primary-recommendation .recommendation-header .icon::after {
@@ -121,7 +126,6 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     @keyframes sheen { 0% { left: -60%; } 100% { left: 140%; } }
 
-    .recommendation-header .icon .fa-solid { font-size: 28px; color: var(--dark-green); }
     .recommendation-header h3 { margin: 0; font-size: 20px; color: var(--text-dark); }
     .recommendation-badge { background-color: var(--dark-green); color: white; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 12px; margin-right: auto; }
     .recommendation-reason { font-size: 15px; line-height: 1.8; color: var(--text-muted); margin-bottom: 15px; text-align: justify; }
@@ -133,20 +137,35 @@
     .result-info .clinic-name { font-size: 0.8em; color: var(--text-muted); }
     .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--dark-green); border-radius: 50%; width: 25px; height: 25px; animation: spin 1s linear infinite; margin: 10px auto; display: none; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .section-title { background-color: var(--dark-green); color: var(--white); padding: 12px 20px; border-radius: 10px; margin-top: 35px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
-    .section-title .icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
-    .section-title .icon .fa-solid { font-size: 28px; transition: transform 0.3s ease-in-out; }
     
-    /* === NEW ANIMATION FOR ICONS ON HOVER === */
-    .section-title:hover .icon .fa-solid {
-        animation: pulse-grow 1s ease-in-out;
+    .section-title { 
+        background-color: var(--dark-green); 
+        color: var(--white); 
+        padding: 12px 20px; 
+        border-radius: 10px; 
+        margin-top: 35px; 
+        margin-bottom: 20px; 
+        display: flex; 
+        align-items: center; 
+        gap: 15px;
+        transition: all 0.3s ease-in-out;
     }
-    @keyframes pulse-grow {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
+    .section-title:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
-    /* === END OF NEW ANIMATION === */
+    .section-title .icon { 
+        width: 48px; 
+        height: 48px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+    }
+    .section-title .icon svg { 
+        width: 100%; 
+        height: 100%; 
+        fill: var(--white); 
+    }
 
     .section-title .title-text { flex-grow: 1; }
     .section-title .title-text h2 { font-size: 20px; font-weight: 700; margin:0; }
@@ -328,21 +347,33 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // =================================================================================
-    // START: NEW PROFESSIONAL ICONS (FONT AWESOME)
+    // START: NEW PROFESSIONAL SVG ICONS (INLINE)
     // =================================================================================
+    const clinicIcons = {
+        "الباطنة-والجهاز-الهضمي-والكبد": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10,10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M12,6c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S13.1,6,12,6z M12,16c-2.76,0-5-2.24-5-5h2c0,1.65,1.35,3,3,3s3-1.35,3-3 h2C17,13.76,14.76,16,12,16z"/></svg>`,
+        "مسالك": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2c-5.53,0-10,4.47-10,10c0,2.05,0.62,3.95,1.69,5.6L12,22l8.31-4.4C21.38,15.95,22,14.05,22,12C22,6.47,17.53,2,12,2z M12,15c-1.66,0-3-1.34-3-3s1.34-3,3-3s3,1.34,3,3S13.66,15,12,15z"/></svg>`,
+        "باطنة-عامة": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4 V13z"/></svg>`,
+        "غدد-صماء-وسكر": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35,10.04C18.67,6.59,15.64,4,12,4C9.11,4,6.6,5.64,5.35,8.04C2.34,8.36,0,10.91,0,14c0,3.31,2.69,6,6,6h13 c2.76,0,5-2.24,5-5C24,12.36,21.95,10.22,19.35,10.04z M14,14v4h-4v-4H7l5-5l5,5H14z"/></svg>`,
+        "القلب-والإيكو": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3 C19.58,3,22,5.42,22,8.5c0,3.78-3.4,6.86-8.55,11.54L12,21.35z"/></svg>`,
+        "السونار-والدوبلكس": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4,6H2v14c0,1.1,0.9,2,2,2h14v-2H4V6z M20,2H8C6.9,2,6,2.9,6,4v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V4 C22,2.9,21.1,2,20,2z M12,14.5c-2.49,0-4.5-2.01-4.5-4.5S9.51,5.5,12,5.5s4.5,2.01,4.5,4.5S14.49,14.5,12,14.5z M12,7.5 c-1.38,0-2.5,1.12-2.5,2.5s1.12,2.5,2.5,2.5s2.5-1.12,2.5-2.5S13.38,7.5,12,7.5z"/></svg>`,
+        "جراحة-التجميل": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M10,17l-4-4l1.41-1.41L10,14.17l6.59-6.59L18,9L10,17z"/></svg>`,
+        "عظام": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9,3C7.9,3,7,3.9,7,5v14c0,1.1,0.9,2,2,2s2-0.9,2-2V5C11,3.9,10.1,3,9,3z M15,3c-1.1,0-2,0.9-2,2v14c0,1.1,0.9,2,2,2 s2-0.9,2-2V5C17,3.9,16.1,3,15,3z M3,9C1.9,9,1,9.9,1,11v2c0,1.1,0.9,2,2,2s2-0.9,2-2v-2C5,9.9,4.1,9,3,9z M21,9c-1.1,0-2,0.9-2,2 v2c0,1.1,0.9,2,2,2s2-0.9,2-2v-2C23,9.9,22.1,9,21,9z"/></svg>`,
+        "جلدية-وليزر": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8 s8,3.59,8,8S16.41,20,12,20z M16.5,12c0,2.48-2.02,4.5-4.5,4.5S7.5,14.48,7.5,12S9.52,7.5,12,7.5S16.5,9.52,16.5,12z"/></svg>`
+    };
+
     const clinicsDisplayData = [
-        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology", icon: "fa-bacterium" },
-        { id: "مسالك", name: "المسالك البولية", en_name: "Urology", icon: "fa-droplet" },
-        { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine", icon: "fa-stethoscope" },
-        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes", icon: "fa-syringe" },
-        { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography", icon: "fa-heart-pulse" },
-        { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler", icon: "fa-wave-square" },
-        { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery", icon: "fa-user-doctor" },
-        { id: "عظام", name: "العظام", en_name: "Orthopedics", icon: "fa-bone" },
-        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser", icon: "fa-hand-sparkles" }
+        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology" },
+        { id: "مسالك", name: "المسالك البولية", en_name: "Urology" },
+        { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine" },
+        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes" },
+        { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography" },
+        { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler" },
+        { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery" },
+        { id: "عظام", name: "العظام", en_name: "Orthopedics" },
+        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser" }
     ].map(clinic => {
         const fullData = allClinicsFullData.find(c => c.id === clinic.id);
-        return { ...clinic, doctors: fullData ? fullData.doctors : [] };
+        return { ...clinic, doctors: fullData ? fullData.doctors : [], icon: clinicIcons[clinic.id] };
     });
     // =================================================================================
     // END OF DATA
@@ -364,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title.className = 'section-title';
             
             title.innerHTML = `
-                <div class="icon"><i class="fa-solid ${clinic.icon}"></i></div>
+                <div class="icon">${clinic.icon}</div>
                 <div class="title-text">
                     <h2>${clinic.name}</h2>
                     <h3 class="en">${clinic.en_name}</h3>
@@ -531,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             card.innerHTML = `
                 <div class="recommendation-header">
-                    <div class="icon"><i class="fa-solid ${clinicInfo.icon}"></i></div>
+                    <div class="icon">${clinicInfo.icon}</div>
                     <h3>${clinicInfo.name}</h3>
                     ${isPrimary ? '<span class="recommendation-badge">الترشيح الأنسب</span>' : '<span class="recommendation-badge" style="background-color: #6c757d;">ترشيح بديل</span>'}
                 </div>
@@ -549,7 +580,7 @@ document.addEventListener('DOMContentLoaded', function() {
         recommendationResultContainer.innerHTML = `
             <div class="recommendation-card primary-recommendation">
                  <div class="recommendation-header">
-                    <div class="icon"><i class="fa-solid ${clinicInfo.icon}"></i></div>
+                    <div class="icon">${clinicInfo.icon}</div>
                     <h3>الباطنة العامة</h3>
                     <span class="recommendation-badge">الترشيح المبدئي</span>
                 </div>
@@ -654,7 +685,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 recommendationsHtml = `
                     <h3 class="analysis-section-title">العيادة الموصى بها</h3>
                     <div class="recommendation-header" style="margin-bottom: 15px;">
-                        <div class="icon"><i class="fa-solid ${clinicInfo.icon}"></i></div>
+                        <div class="icon">${clinicInfo.icon}</div>
                         <h3>${clinicInfo.name}</h3>
                     </div>
                     <p>${rec.reason || 'نوصي بزيارة هذه العيادة للمتابعة.'}</p>
