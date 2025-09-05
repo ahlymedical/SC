@@ -160,6 +160,10 @@
         display: flex; 
         align-items: center; 
         justify-content: center; 
+        transition: transform 0.4s ease-in-out;
+    }
+    .section-title:hover .icon {
+        transform: scale(1.1);
     }
     .section-title .icon svg { 
         width: 100%; 
@@ -332,7 +336,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // =================================================================================
-    // START: DOCTOR AND CLINIC DATA (CORRECTED FROM NEW IMAGE)
+    // START: DOCTOR AND CLINIC DATA (CORRECTED AND VERIFIED FROM IMAGE)
     // =================================================================================
     const allClinicsFullData = [
         { id: "الباطنة-والجهاز-الهضمي-والكبد", doctors: [ { name: "د. عبد الرحيم الطيب (اخصائي)", en_name: "Dr. Abdelrahim Eltayeb", schedule: { "الأحد": "02:00 PM", "الأربعاء": "02:00 PM" } } ] },
@@ -707,4 +711,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
-</html>
+</html>```
