@@ -140,16 +140,15 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .section-title { background-color: var(--dark-green); color: var(--white); padding: 12px 20px; border-radius: 10px; margin-top: 35px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
     .section-title .icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
-    .section-title .icon .fa-solid { font-size: 28px; transition: transform 0.3s ease-in-out; }
+    .section-title .icon svg { width: 100%; height: 100%; fill: var(--white); transition: transform 0.4s ease-in-out; }
     
-    /* === NEW ANIMATION FOR ICONS ON HOVER === */
-    .section-title:hover .icon .fa-solid {
-        animation: pulse-grow 1s ease-in-out;
+    /* === NEW ANIMATION FOR SVG ICONS ON HOVER === */
+    .section-title:hover .icon svg {
+        animation: spin-once 0.8s ease-in-out;
     }
-    @keyframes pulse-grow {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
+    @keyframes spin-once {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
     /* === END OF NEW ANIMATION === */
 
@@ -333,29 +332,41 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // =================================================================================
-    // START: NEW PROFESSIONAL ICONS (FONT AWESOME)
+    // START: NEW PROFESSIONAL SVG ICONS (INLINE)
     // =================================================================================
+    const clinicIcons = {
+        "الباطنة-والجهاز-الهضمي-والكبد": `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 10c-2.76 0-5-2.24-5-5h2c0 1.65 1.35 3 3 3s3-1.35 3-3h2c0 2.76-2.24 5-5 5z"/></svg>`,
+        "مسالك": `<svg viewBox="0 0 24 24"><path d="M12 2c-5.52 0-10 4.48-10 10s10 12 10 12 10-6.48 10-12S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>`,
+        "باطنة-عامة": `<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"/></svg>`,
+        "غدد-صماء-وسكر": `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.6 13.71L12 18.4l-4.6-2.69.9-1.56 3.7 2.16 3.7-2.16.9 1.56zM12 13.5l-4.6-2.69.9-1.56 3.7 2.16 3.7-2.16.9 1.56L12 13.5zM12 8.5l-4.6-2.69.9-1.56 3.7 2.16 3.7-2.16.9 1.56L12 8.5z"/></svg>`,
+        "القلب-والإيكو": `<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+        "السونار-والدوبلكس": `<svg viewBox="0 0 24 24"><path d="M3 17.25V6.75a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 6.75v10.5A2.25 2.25 0 0 1 18.75 20h-13.5A2.25 2.25 0 0 1 3 17.25zM5.25 6a.75.75 0 0 0-.75.75v10.5c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75V6.75a.75.75 0 0 0-.75-.75H5.25z"/><path d="M12 15.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM8 12.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>`,
+        "جراحة-التجميل": `<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-12h2v4h-2zm0 6h2v2h-2z"/></svg>`,
+        "عظام": `<svg viewBox="0 0 24 24"><path d="M9 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zM3 9c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2s2-.9 2-2v-2c0-1.1-.9-2-2-2zm18 0c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2s2-.9 2-2v-2c0-1.1-.9-2-2-2z"/></svg>`,
+        "جلدية-وليزر": `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>`
+    };
+
     const clinicsDisplayData = [
-        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology", icon: "fa-notes-medical", isSvg: false },
-        { id: "مسالك", name: "المسالك البولية", en_name: "Urology", icon: "fa-droplet", isSvg: false },
-        { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine", icon: "fa-stethoscope", isSvg: false },
-        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes", icon: "fa-vial", isSvg: false },
-        { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography", icon: "fa-heart-pulse", isSvg: false },
-        { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler", icon: "fa-wave-square", isSvg: false },
-        { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery", icon: "fa-band-aid", isSvg: false },
-        { id: "عظام", name: "العظام", en_name: "Orthopedics", icon: "fa-bone", isSvg: false },
-        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser", icon: "fa-hand-sparkles", isSvg: false }
+        { id: "الباطنة-والجهاز-الهضمي-والكبد", name: "الباطنة والجهاز الهضمي والكبد", en_name: "Gastroenterology & Hepatology" },
+        { id: "مسالك", name: "المسالك البولية", en_name: "Urology" },
+        { id: "باطنة-عامة", name: "الباطنة العامة", en_name: "General Medicine" },
+        { id: "غدد-صماء-وسكر", name: "غدد صماء وسكر", en_name: "Endocrinology & Diabetes" },
+        { id: "القلب-والإيكو", name: "القلب والإيكو", en_name: "Cardiology & Echocardiography" },
+        { id: "السونار-والدوبلكس", name: "السونار والدوبلكس", en_name: "Ultrasound & Doppler" },
+        { id: "جراحة-التجميل", name: "جراحة التجميل", en_name: "Plastic Surgery" },
+        { id: "عظام", name: "العظام", en_name: "Orthopedics" },
+        { id: "جلدية-وليزر", name: "الجلدية والليزر", en_name: "Dermatology & Laser" }
     ].map(clinic => {
         const fullData = allClinicsFullData.find(c => c.id === clinic.id);
-        return { ...clinic, doctors: fullData ? fullData.doctors : [] };
+        return { ...clinic, doctors: fullData ? fullData.doctors : [], icon: clinicIcons[clinic.id] };
     });
     // =================================================================================
-    // END: DOCTOR AND CLINIC DATA
+    // END OF DATA
     // =================================================================================
 
     const clinicsContainer = document.getElementById('clinics-container');
     const daysMap = { "السبت": "Saturday", "الأحد": "Sunday", "الإثنين": "Monday", "الثلاثاء": "Tuesday", "الأربعاء": "Wednesday", "الخميس": "Thursday", "الجمعة": "Friday" };
-    const clinicMap = new Map(clinicsDisplayData.map(c => [c.id, {name: c.name, icon: c.icon, isSvg: c.isSvg}]));
+    const clinicMap = new Map(clinicsDisplayData.map(c => [c.id, {name: c.name, icon: c.icon}]));
 
     function renderClinics(data) {
         clinicsContainer.innerHTML = '';
@@ -368,12 +379,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const title = document.createElement('div');
             title.className = 'section-title';
             
-            const iconHtml = clinic.isSvg 
-                ? `<div class="svg-icon" style="-webkit-mask-image: url(./icons/${clinic.icon}); mask-image: url(./icons/${clinic.icon});"></div>`
-                : `<i class="fa-solid ${clinic.icon}"></i>`;
-            
             title.innerHTML = `
-                <div class="icon">${iconHtml}</div>
+                <div class="icon">${clinic.icon}</div>
                 <div class="title-text">
                     <h2>${clinic.name}</h2>
                     <h3 class="en">${clinic.en_name}</h3>
@@ -537,12 +544,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const isPrimary = index === 0;
             const card = document.createElement('div');
             card.className = `recommendation-card ${isPrimary ? 'primary-recommendation' : ''}`;
-            const iconHtml = clinicInfo.isSvg 
-                ? `<div class="svg-icon" style="-webkit-mask-image: url(./icons/${clinicInfo.icon}); mask-image: url(./icons/${clinicInfo.icon});"></div>`
-                : `<i class="fa-solid ${clinicInfo.icon}"></i>`;
+            
             card.innerHTML = `
                 <div class="recommendation-header">
-                    <div class="icon">${iconHtml}</div>
+                    <div class="icon">${clinicInfo.icon}</div>
                     <h3>${clinicInfo.name}</h3>
                     ${isPrimary ? '<span class="recommendation-badge">الترشيح الأنسب</span>' : '<span class="recommendation-badge" style="background-color: #6c757d;">ترشيح بديل</span>'}
                 </div>
@@ -556,11 +561,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayFallback(message = null) {
         const fallbackMessage = message || 'لم نتمكن من تحديد تخصص دقيق. نقترح عليك التوجه لعيادة <strong>الباطنة العامة</strong> كنقطة بداية.';
         const clinicInfo = clinicMap.get("باطنة-عامة");
-        const iconHtml = `<i class="fa-solid ${clinicInfo.icon}"></i>`;
+        
         recommendationResultContainer.innerHTML = `
             <div class="recommendation-card primary-recommendation">
                  <div class="recommendation-header">
-                    <div class="icon">${iconHtml}</div>
+                    <div class="icon">${clinicInfo.icon}</div>
                     <h3>الباطنة العامة</h3>
                     <span class="recommendation-badge">الترشيح المبدئي</span>
                 </div>
@@ -662,13 +667,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const rec = data.recommendations[0];
             const clinicInfo = clinicMap.get(rec.id);
             if (clinicInfo) {
-                const iconHtml = clinicInfo.isSvg 
-                    ? `<div class="svg-icon" style="-webkit-mask-image: url(./icons/${clinicInfo.icon}); mask-image: url(./icons/${clinicInfo.icon});"></div>`
-                    : `<i class="fa-solid ${clinicInfo.icon}"></i>`;
                 recommendationsHtml = `
                     <h3 class="analysis-section-title">العيادة الموصى بها</h3>
                     <div class="recommendation-header" style="margin-bottom: 15px;">
-                        <div class="icon">${iconHtml}</div>
+                        <div class="icon">${clinicInfo.icon}</div>
                         <h3>${clinicInfo.name}</h3>
                     </div>
                     <p>${rec.reason || 'نوصي بزيارة هذه العيادة للمتابعة.'}</p>
@@ -690,4 +692,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
-</html>```
+</html>
