@@ -147,26 +147,28 @@
         margin-bottom: 20px; 
         display: flex; 
         align-items: center; 
-        justify-content: space-between; /* NEW: Ensures separation */
+        justify-content: space-between;
         transition: all 0.3s ease-in-out;
     }
     .section-title:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
-    /* NEW: Group for icon and text to prevent wrapping */
     .title-content {
         display: flex;
         align-items: center;
         gap: 15px;
+        flex-grow: 1;
+        min-width: 0; /* Prevents flexbox overflow */
     }
     .section-title .icon { 
-        width: 48px; 
-        height: 48px; 
+        width: 56px; /* Increased size */
+        height: 56px; /* Increased size */
         display: flex; 
         align-items: center; 
         justify-content: center; 
         transition: transform 0.4s ease-in-out;
+        flex-shrink: 0; /* Prevents icon from shrinking */
     }
     .section-title:hover .icon {
         transform: scale(1.1);
@@ -177,10 +179,13 @@
         background-color: var(--white);
     }
 
-    .section-title .title-text { flex-grow: 1; }
+    .section-title .title-text { 
+        flex-grow: 1;
+        min-width: 0; /* Allows text to shrink and wrap */
+    }
     .section-title .title-text h2 { font-size: 20px; font-weight: 700; margin:0; }
     .section-title .title-text h3 { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400; opacity: 0.9; margin:0; }
-    .title-nav-buttons { display: flex; gap: 10px; margin-left: auto; }
+    .title-nav-buttons { display: flex; gap: 10px; flex-shrink: 0; }
     .nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; transition: background-color 0.3s; font-size: 14px; }
     .nav-btn:hover { background: rgba(255,255,255,0.4); }
     
@@ -345,14 +350,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // START: DOCTOR AND CLINIC DATA (CORRECTED AND VERIFIED FROM IMAGE)
     // =================================================================================
     const allClinicsFullData = [
-        { id: "الباطنة-والجهاز-الهضمي-والكبد", doctors: [ { name: "د. عبد الرحيم الطيب (اخصائي)", en_name: "Dr. Abdelrahim Eltayeb", schedule: { "السبت": "07:00 PM", "الأربعاء": "07:00 PM" } } ] },
-        { id: "مسالك", doctors: [ { name: "د. احمد شفیع (استشاري)", en_name: "Dr. Ahmed Shafie", schedule: { "السبت": "06:00 PM", "الثلاثاء": "06:00 PM" } } ] },
+        { id: "الباطنة-والجهاز-الهضمي-والكبد", doctors: [ { name: "د. عبد الرحيم الطيب (اخصائي)", en_name: "Dr. Abdelrahim Eltayeb", schedule: { "السبت": "7 م", "الأربعاء": "7 م" } } ] },
+        { id: "مسالك", doctors: [ { name: "د. احمد شفیع (استشاري)", en_name: "Dr. Ahmed Shafie", schedule: { "السبت": "6 م", "الثلاثاء": "6 م" } } ] },
         { id: "باطنة-عامة", doctors: [ { name: "د. ندين (اخصائي)", en_name: "Dr. Nadine", schedule: { "السبت": "10 ص - 5 م", "الأحد": "10 ص - 5 م" } }, { name: "د. انجى يسرى (اخصائي)", en_name: "Dr. Engy Yousry", schedule: { "الإثنين": "10 ص - 5 م", "الثلاثاء": "10 ص - 5 م", "الخميس": "10 ص - 5 م" } }, { name: "د. هاله (اخصائي)", en_name: "Dr. Hala", schedule: { "الأربعاء": "10 ص - 5 م" } } ] },
-        { id: "غدد-صماء-وسكر", doctors: [ { name: "د. احمد سامی (استشاري)", en_name: "Dr. Ahmed Samy", schedule: { "السبت": "08:00 PM", "الثلاثاء": "08:00 PM" } } ] },
+        { id: "غدد-صماء-وسكر", doctors: [ { name: "د. احمد سامی (استشاري)", en_name: "Dr. Ahmed Samy", schedule: { "السبت": "8 م", "الثلاثاء": "8 م" } } ] },
         { id: "القلب-والإيكو", doctors: [ { name: "د. محمود سعید (اخصائي)", en_name: "Dr. Mahmoud Saeed", schedule: { "السبت": "10 ص - 7 م" } }, { name: "د. وسیم (اخصائي)", en_name: "Dr. Waseem", schedule: { "الإثنين": "10 ص - 3 م" } }, { name: "د. غاده عادل (استشاري)", en_name: "Dr. Ghada Adel", schedule: { "الثلاثاء": "10 ص - 7 م", "الأربعاء": "10 ص - 7 م", "الخميس": "10 ص - 3 م" } }, { name: "د. محمد نبیل (استشاري)", en_name: "Dr. Mohamed Nabil", schedule: { "الإثنين": "5 م - 8 م", "الخميس": "5 م - 8 م" } } ] },
-        { id: "السونار-والدوبلكس", doctors: [ { name: "د. أحمد عثمان (اخصائي)", en_name: "Dr. Ahmed Othman", schedule: { "السبت": "01:00 PM", "الأربعاء": "01:00 PM" } }, { name: "د. مصطفى عثمان (اخصائي)", en_name: "Dr. Mostafa Othman", schedule: { "الأحد": "01:00 PM" } }, { name: "د. کریم فاروق (اخصائي)", en_name: "Dr. Karim Farouk", schedule: { "الإثنين": "01:00 PM", "الخميس": "01:00 PM" } }, { name: "د. إسلام مصطفى (اخصائي)", en_name: "Dr. Islam Mostafa", schedule: { "الثلاثاء": "01:00 PM" } } ] },
-        { id: "جراحة-التجميل", doctors: [ { name: "د. يحيى خالد (اخصائي)", en_name: "Dr. Yehia Khaled", schedule: { "الأحد": "03:00 PM", "الثلاثاء": "03:00 PM" } } ] },
-        { id: "عظام", doctors: [ { name: "د. محمد صلاح (استشاري)", en_name: "Dr. Mohamed Salah", schedule: { "الإثنين": "07:00 PM", "الأربعاء": "07:00 PM" } }, { name: "د. هديل العجيلي (استشاري)", en_name: "Dr. Hadeel Al-Ajili", schedule: { "الثلاثاء": "07:00 PM", "الأربعاء": "07:00 PM" } } ] },
+        { id: "السونار-والدوبلكس", doctors: [ { name: "د. أحمد عثمان (اخصائي)", en_name: "Dr. Ahmed Othman", schedule: { "السبت": "1 م", "الأربعاء": "1 م" } }, { name: "د. مصطفى عثمان (اخصائي)", en_name: "Dr. Mostafa Othman", schedule: { "الأحد": "1 م" } }, { name: "د. کریم فاروق (اخصائي)", en_name: "Dr. Karim Farouk", schedule: { "الإثنين": "1 م", "الخميس": "1 م" } }, { name: "د. إسلام مصطفى (اخصائي)", en_name: "Dr. Islam Mostafa", schedule: { "الثلاثاء": "1 م" } } ] },
+        { id: "جراحة-التجميل", doctors: [ { name: "د. يحيى خالد (اخصائي)", en_name: "Dr. Yehia Khaled", schedule: { "الأحد": "3 م", "الثلاثاء": "3 م" } } ] },
+        { id: "عظام", doctors: [ { name: "د. محمد صلاح (استشاري)", en_name: "Dr. Mohamed Salah", schedule: { "الإثنين": "7 م", "الأربعاء": "7 م" } }, { name: "د. هديل العجيلي (استشاري)", en_name: "Dr. Hadeel Al-Ajili", schedule: { "الثلاثاء": "7 م", "الأربعاء": "7 م" } } ] },
         { id: "جلدية-وليزر", doctors: [ { name: "د. دینا امیر (استشاري)", en_name: "Dr. Dina Amir", schedule: { "السبت": "10 ص - 3 م", "الإثنين": "10 ص - 3 م", "الخميس": "10 ص - 3 م" } }, { name: "د. ياسمين احمد (اخصائي)", en_name: "Dr. Yasmine Ahmed", schedule: { "الخميس": "6 م - 10 م" } } ] }
     ];
 
@@ -378,7 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // =================================================================================
 
     const clinicsContainer = document.getElementById('clinics-container');
-    const daysMap = { "السبت": "Saturday", "الأحد": "Sunday", "الإثنين": "Monday", "الثلاثاء": "Tuesday", "الأربعاء": "Wednesday", "الخميس": "Thursday", "الجمعة": "Friday" };
     const clinicMap = new Map(clinicsDisplayData.map(c => [c.id, {name: c.name, icon: c.icon}]));
 
     function renderClinics(data) {
@@ -420,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const appointmentDiv = document.createElement('div');
                     appointmentDiv.className = 'appointment';
                     appointmentDiv.innerHTML = `
-                        <span class="day">${day}<br><span class="en">${daysMap[day]}</span></span>
+                        <span class="day">${day}</span>
                         <span class="time">${doctor.schedule[day]}</span>`;
                     card.appendChild(appointmentDiv);
                 });
