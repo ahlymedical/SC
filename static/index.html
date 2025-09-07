@@ -104,19 +104,19 @@
     .recommendation-header { 
         display: flex; 
         align-items: center; 
-        justify-content: space-between; /* NEW */
+        justify-content: space-between;
         gap: 15px; 
         margin-bottom: 10px; 
     }
-    .recommendation-header .title-content { /* NEW WRAPPER */
+    .recommendation-header .title-content {
         display: flex;
         align-items: center;
         gap: 15px;
         min-width: 0;
     }
     .recommendation-header .icon {
-        width: 48px; /* Adjusted size */
-        height: 48px; /* Adjusted size */
+        width: 48px;
+        height: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -243,37 +243,6 @@
     .map-link-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer; }
     .location-address { margin-top: 15px; font-size: 16px; color: var(--text-muted); line-height: 1.7; }
 
-    /* --- AI Analyzer Styles --- */
-    .upload-area { border: 2px dashed #ccc; border-radius: 10px; padding: 20px; margin-bottom: 15px; transition: border-color 0.3s, background-color 0.3s; }
-    .upload-area.drag-over { border-color: var(--dark-green); background-color: #e6f3f3; }
-    #report-files-input { display: none; }
-    .upload-label { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); }
-    .upload-label i { font-size: 36px; margin-bottom: 10px; color: var(--dark-green); }
-    .upload-label span { font-size: 16px; font-weight: 600; }
-    #file-preview-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; justify-content: center; }
-    .preview-item { position: relative; width: 80px; height: 80px; }
-    .preview-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
-    .preview-item .file-icon {
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        width: 100%; height: 100%; background-color: #f0f2f5; border-radius: 8px; border: 1px solid #ddd;
-    }
-    .preview-item .file-icon i { font-size: 30px; color: var(--dark-green); }
-    .preview-item .file-icon span {
-        font-size: 10px; color: var(--text-muted); margin-top: 5px;
-        word-break: break-all; overflow: hidden; text-overflow: ellipsis;
-        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    }
-    .remove-file-btn {
-        position: absolute; top: -5px; right: -5px; width: 20px; height: 20px;
-        background-color: var(--danger-red); color: white; border: none; border-radius: 50%;
-        cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; z-index: 1;
-    }
-    .analysis-card { background-color: var(--white); border: 2px solid var(--dark-green); box-shadow: 0 0 20px var(--primary-glow); border-radius: 10px; padding: 20px; text-align: right; }
-    .analysis-card .disclaimer { background-color: #fff3cd; border-right: 5px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-    .analysis-card .disclaimer strong { color: #856404; }
-    .analysis-section-title { font-size: 18px; font-weight: 700; color: var(--dark-green); margin-top: 20px; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 2px solid var(--orange); }
-    .analysis-card ul { padding-right: 20px; margin: 0; }
-    .analysis-card li { margin-bottom: 10px; line-height: 1.8; }
 </style>
 </head>
 <body>
@@ -302,24 +271,6 @@
                 <div class="info-item-text"> الرقم الضريبي: <strong>376-999-748</strong> <span class="en">Tax ID: 748-999-748</span> </div>
             </div>
         </div>
-    </div>
-
-    <!-- AI Report Analyzer -->
-    <div class="feature-box">
-        <h2>🔬 المحلل الذكي للتقارير الطبية</h2>
-        <p>ارفع صور أو ملفات (PDF) للتحاليل أو الأشعة وسيقوم المساعد الذكي بتحليلها، وتوجيهك للعيادة المناسبة، وتقديم نصائح أولية.</p>
-        <div class="upload-area" id="upload-area">
-            <input type="file" id="report-files-input" multiple accept="image/png, image/jpeg, image/webp, application/pdf">
-            <label for="report-files-input" class="upload-label">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>اختر صور أو ملفات التقارير أو اسحبها إلى هنا</span>
-            </label>
-            <div id="file-preview-container"></div>
-        </div>
-        <textarea id="user-notes-input" placeholder="يمكنك إضافة أي ملاحظات أو أسئلة هنا... (اختياري)"></textarea>
-        <button id="analyze-reports-btn" disabled><i class="fa-solid fa-microscope"></i> حلل الآن</button>
-        <div id="analysis-loader" class="loader"></div>
-        <div id="analysis-result-container"></div>
     </div>
 
     <!-- Search by Doctor Name -->
