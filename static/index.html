@@ -147,12 +147,18 @@
         margin-bottom: 20px; 
         display: flex; 
         align-items: center; 
-        gap: 15px;
+        justify-content: space-between; /* NEW: Ensures separation */
         transition: all 0.3s ease-in-out;
     }
     .section-title:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    /* NEW: Group for icon and text to prevent wrapping */
+    .title-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
     .section-title .icon { 
         width: 48px; 
@@ -389,10 +395,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const iconHtml = `<div class="icon"><div class="svg-icon" style="-webkit-mask-image: url(./icons/${clinic.icon}); mask-image: url(./icons/${clinic.icon});"></div></div>`;
             
             title.innerHTML = `
-                ${iconHtml}
-                <div class="title-text">
-                    <h2>${clinic.name}</h2>
-                    <h3 class="en">${clinic.en_name}</h3>
+                <div class="title-content">
+                    ${iconHtml}
+                    <div class="title-text">
+                        <h2>${clinic.name}</h2>
+                        <h3 class="en">${clinic.en_name}</h3>
+                    </div>
                 </div>
                 <div class="title-nav-buttons">
                     <button class="nav-btn" data-target="search-box" title="اذهب إلى البحث"><i class="fa-solid fa-arrow-up"></i></button>
