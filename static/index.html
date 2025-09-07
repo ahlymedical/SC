@@ -248,7 +248,7 @@
 <body>
 
 <div class="page" id="page-top">
-    <div class="logo-container"><img src="https://i.ibb.co/CKwJDMmt/Cover.png" alt="Sehha Clinics Logo" class="logo-image"></div>
+    <div class="logo-container"><img src="https://i.ibb.co/jkpz36nT/Cover-LOGO.png" alt="Cover-LOGO" class="logo-image"></div>
     
     <div class="info-professional">
         <h1>نتشرف باستقبال حضراتكم بعياداتنا</h1>
@@ -497,7 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const RECOMMEND_API = '/api/recommend';
-    const ANALYZE_API = '/api/analyze';
 
     const getRecommendationBtn = document.getElementById('get-recommendation-btn');
     const symptomsInput = document.getElementById('symptoms-input');
@@ -583,123 +582,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="go-to-btn" onclick="scrollToClinic('باطنة-عامة')">اذهب إلى عيادة الباطنة العامة <i class="fa-solid fa-arrow-down"></i></button>
             </div>
         `;
-    }
-
-    const uploadArea = document.getElementById('upload-area');
-    const fileInput = document.getElementById('report-files-input');
-    const previewContainer = document.getElementById('file-preview-container');
-    const analyzeBtn = document.getElementById('analyze-reports-btn');
-    const analysisLoader = document.getElementById('analysis-loader');
-    const analysisResultContainer = document.getElementById('analysis-result-container');
-    const userNotesInput = document.getElementById('user-notes-input');
-    let uploadedFiles = [];
-
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => uploadArea.addEventListener(eventName, preventDefaults, false));
-    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
-    ['dragenter', 'dragover'].forEach(eventName => uploadArea.addEventListener(eventName, () => uploadArea.classList.add('drag-over'), false));
-    ['dragleave', 'drop'].forEach(eventName => uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('drag-over'), false));
-    uploadArea.addEventListener('drop', handleDrop, false);
-    function handleDrop(e) { let dt = e.dataTransfer; let files = dt.files; handleFiles(files); }
-    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
-
-    function handleFiles(files) {
-        [...files].forEach(file => {
-            if (file.size > 5 * 1024 * 1024) { alert(`الملف "${file.name}" كبير جدًا (أكثر من 5 ميجابايت) ولن يتم رفعه.`); return; }
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                uploadedFiles.push({ name: file.name, base64: e.target.result, mimeType: file.type || 'application/octet-stream' });
-                renderPreviews();
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    function renderPreviews() {
-        previewContainer.innerHTML = '';
-        uploadedFiles.forEach((fileData, index) => {
-            const previewItem = document.createElement('div');
-            previewItem.className = 'preview-item';
-            let filePreviewHtml;
-            if (fileData.mimeType.startsWith('image/')) {
-                filePreviewHtml = `<img src="${fileData.base64}" alt="${fileData.name}">`;
-            } else {
-                let iconClass = fileData.mimeType.includes('pdf') ? 'fa-solid fa-file-pdf' : 'fa-solid fa-file';
-                filePreviewHtml = `<div class="file-icon"><i class="${iconClass}"></i><span>${fileData.name}</span></div>`;
-            }
-            previewItem.innerHTML = `${filePreviewHtml}<button class="remove-file-btn" data-index="${index}">&times;</button>`;
-            previewContainer.appendChild(previewItem);
-        });
-        updateAnalyzeButtonState();
-    }
-
-    previewContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('remove-file-btn')) {
-            const index = parseInt(e.target.dataset.index, 10);
-            uploadedFiles.splice(index, 1);
-            renderPreviews();
-        }
-    });
-
-    function updateAnalyzeButtonState() { analyzeBtn.disabled = uploadedFiles.length === 0; }
-
-    analyzeBtn.addEventListener('click', async () => {
-        if (uploadedFiles.length === 0) return;
-        analysisLoader.style.display = 'block';
-        analysisResultContainer.innerHTML = '';
-        analyzeBtn.disabled = true;
-        const filesPayload = uploadedFiles.map(file => ({ mime_type: file.mimeType, data: file.base64.split(',')[1] }));
-        try {
-            const response = await fetch(ANALYZE_API, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ files: filesPayload, notes: userNotesInput.value })
-            });
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({error: "حدث خطأ في الخادم. قد يكون الملف غير مدعوم."}));
-                throw new Error(errorData.error);
-            }
-            const data = await response.json();
-            displayAnalysisResult(data);
-        } catch (error) {
-            console.error("Analysis Error:", error);
-            analysisResultContainer.innerHTML = `<div class="analysis-card"><p style="color:var(--danger-red);">عفواً، حدث خطأ تقني: ${error.message}. يرجى التأكد من أن الملفات واضحة والمحاولة مرة أخرى.</p></div>`;
-        } finally {
-            analysisLoader.style.display = 'none';
-        }
-    });
-
-    function displayAnalysisResult(data) {
-        analysisResultContainer.innerHTML = '';
-        const card = document.createElement('div');
-        card.className = 'analysis-card';
-        let recommendationsHtml = '';
-        if (data.recommendations && data.recommendations.length > 0 && data.recommendations[0].id) {
-            const rec = data.recommendations[0];
-            const clinicInfo = clinicMap.get(rec.id);
-            if (clinicInfo) {
-                const iconHtml = `<div class="icon"><div class="svg-icon" style="-webkit-mask-image: url(./icons/${clinicInfo.icon}); mask-image: url(./icons/${clinicInfo.icon});"></div></div>`;
-                recommendationsHtml = `
-                    <h3 class="analysis-section-title">العيادة الموصى بها</h3>
-                    <div class="recommendation-header" style="margin-bottom: 15px;">
-                        <div class="title-content">
-                            ${iconHtml}
-                            <h3>${clinicInfo.name}</h3>
-                        </div>
-                    </div>
-                    <p>${rec.reason || 'نوصي بزيارة هذه العيادة للمتابعة.'}</p>
-                    <button class="go-to-btn" style="margin-top: 15px;" onclick="scrollToClinic('${rec.id}')">اذهب إلى عيادة ${clinicInfo.name} <i class="fa-solid fa-arrow-down"></i></button>
-                `;
-            }
-        }
-        card.innerHTML = `
-            <div class="disclaimer"><i class="fa-solid fa-triangle-exclamation"></i> <strong>تنبيه هام:</strong> هذا التحليل هو مجرد إرشاد أولي ولا يغني إطلاقًا عن استشارة الطبيب المختص.</div>
-            <h3 class="analysis-section-title">شرح احترافي مبدئي للتقرير</h3>
-            <p>${data.interpretation || 'لم يتمكن المساعد من تقديم شرح واضح.'}</p>
-            <h3 class="analysis-section-title">نصائح وإرشادات مؤقتة</h3>
-            <ul>${(data.temporary_advice && data.temporary_advice.length > 0) ? data.temporary_advice.map(item => `<li>${item}</li>`).join('') : '<li>لا توجد نصائح محددة.</li>'}</ul>
-            ${recommendationsHtml}
-        `;
-        analysisResultContainer.appendChild(card);
     }
 });
 </script>
