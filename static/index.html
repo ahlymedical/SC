@@ -103,8 +103,8 @@
     .recommendation-card.primary-recommendation { border: 2px solid var(--dark-green); box-shadow: 0 0 20px var(--primary-glow); }
     .recommendation-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
     .recommendation-header .icon {
-        width: 56px; /* Increased size */
-        height: 56px; /* Increased size */
+        width: 56px;
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -171,12 +171,23 @@
         flex-shrink: 0; /* Prevents icon from shrinking */
     }
     .section-title:hover .icon {
-        transform: scale(1.1);
+        animation: float-and-tilt 0.8s ease-in-out;
+    }
+    @keyframes float-and-tilt {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-8px) rotate(5deg); }
+        100% { transform: translateY(0) rotate(0deg); }
     }
     .section-title .icon .svg-icon { 
         width: 100%; 
         height: 100%; 
         background-color: var(--white);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
     }
 
     .section-title .title-text { 
@@ -718,4 +729,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
-</html>
+</html>```
