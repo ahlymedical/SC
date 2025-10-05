@@ -197,31 +197,42 @@
         transform: translateY(-4px);
         box-shadow: 0 8px 16px rgba(0,0,0,0.08);
     }
-    .clinic-nav-button.active {
-        border-color: var(--orange);
-        background-color: #fff8f2;
-        box-shadow: 0 0 15px var(--orange-glow);
-    }
     .clinic-nav-icon {
         width: 48px;
         height: 48px;
         background-color: var(--dark-green);
         flex-shrink: 0;
-    }
-    .clinic-nav-text {
-        flex-grow: 1;
+        transition: background-color 0.3s ease;
     }
     .clinic-nav-text .ar-name {
         font-size: 17px;
         font-weight: 700;
         color: var(--text-dark);
         display: block;
+        transition: color 0.3s ease;
     }
     .clinic-nav-text .en-name {
         font-size: 13px;
         color: var(--text-muted);
         font-family: 'Poppins', sans-serif;
+        transition: color 0.3s ease;
     }
+
+    /* --- ACTIVE STATE STYLES (THE CHANGE IS HERE) --- */
+    .clinic-nav-button.active {
+        background-color: var(--dark-green);
+        border-color: var(--dark-green);
+        box-shadow: 0 8px 16px rgba(6, 100, 58, 0.3);
+    }
+    .clinic-nav-button.active .clinic-nav-icon {
+        background-color: var(--white); /* Icon becomes white */
+    }
+    .clinic-nav-button.active .clinic-nav-text .ar-name,
+    .clinic-nav-button.active .clinic-nav-text .en-name {
+        color: var(--white); /* Text becomes white */
+    }
+    /* --- END OF ACTIVE STATE STYLES --- */
+
 
     /* --- FOOTER AND MAP STYLES --- */
     .footer-image-container { margin: 40px -25px -25px -25px; }
