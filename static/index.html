@@ -173,7 +173,7 @@
     .doctor-card .time { font-weight: 600; font-family: 'Poppins', sans-serif; font-size: 15px; background-color: var(--orange); color: var(--white); padding: 3px 10px; border-radius: 5px; }
     .en { font-family: 'Poppins', sans-serif; font-size: 0.9em; font-weight: 400; margin-top: 2px; }
     
-    /* --- NEW STYLES FOR CLINIC NAVIGATION BUTTONS --- */
+    /* --- NEW & IMPROVED STYLES FOR CLINIC NAVIGATION BUTTONS --- */
     #clinic-buttons-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -193,9 +193,9 @@
         font-family: 'Cairo', sans-serif;
     }
     .clinic-nav-button:hover {
-        border-color: var(--dark-green);
         transform: translateY(-4px);
         box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        border-color: var(--dark-green);
     }
     .clinic-nav-icon {
         width: 48px;
@@ -203,6 +203,9 @@
         background-color: var(--dark-green);
         flex-shrink: 0;
         transition: background-color 0.3s ease;
+    }
+    .clinic-nav-text {
+        flex-grow: 1;
     }
     .clinic-nav-text .ar-name {
         font-size: 17px;
@@ -218,7 +221,7 @@
         transition: color 0.3s ease;
     }
 
-    /* --- ACTIVE STATE STYLES (THE CHANGE IS HERE) --- */
+    /* --- ACTIVE STATE STYLES --- */
     .clinic-nav-button.active {
         background-color: var(--dark-green);
         border-color: var(--dark-green);
@@ -231,7 +234,7 @@
     .clinic-nav-button.active .clinic-nav-text .en-name {
         color: var(--white); /* Text becomes white */
     }
-    /* --- END OF ACTIVE STATE STYLES --- */
+    /* --- END OF STYLES --- */
 
 
     /* --- FOOTER AND MAP STYLES --- */
