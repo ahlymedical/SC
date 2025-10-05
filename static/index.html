@@ -75,7 +75,7 @@
     .info-item-text strong { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1em; }
     .info-item-text .en { font-family: 'Poppins', sans-serif; font-size: 0.8em; color: var(--text-muted); display: block; }
 
-    .feature-box { text-align: center; margin-bottom: 25px; padding: 20px; background-color: #e6f3f3; border: 1px solid var(--dark-green); border-radius: 10px; }
+    .feature-box { text-align: center; margin-bottom: 25px; padding: 20px; background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px; }
     .feature-box h2 { font-size: 18px; color: var(--dark-green); margin-top: 0; }
     .feature-box p { font-size: 14px; color: var(--text-muted); }
     .feature-box .input-wrapper { position: relative; display: flex; gap: 10px; align-items: center; }
@@ -98,6 +98,10 @@
     .result-info strong { font-size: 1em; color: var(--text-dark); }
     .result-info .clinic-name { font-size: 0.8em; color: var(--text-muted); }
     
+    /* --- STYLES FOR CLINIC SECTIONS AND DOCTOR CARDS --- */
+    .clinic-section {
+        display: none; /* Hide all clinic sections by default */
+    }
     .section-title { 
         background-color: var(--dark-green); 
         color: var(--white); 
@@ -119,16 +123,16 @@
         align-items: center;
         gap: 15px;
         flex-grow: 1;
-        min-width: 0; /* Prevents flexbox overflow */
+        min-width: 0;
     }
     .section-title .icon { 
-        width: 56px; /* Adjusted size */
-        height: 56px; /* Adjusted size */
+        width: 56px;
+        height: 56px;
         display: flex; 
         align-items: center; 
         justify-content: center; 
         transition: transform 0.4s ease-in-out;
-        flex-shrink: 0; /* Prevents icon from shrinking */
+        flex-shrink: 0;
     }
     .section-title:hover .icon {
         animation: float-and-tilt 0.8s ease-in-out;
@@ -149,10 +153,9 @@
         -webkit-mask-size: contain;
         mask-size: contain;
     }
-
     .section-title .title-text { 
         flex-grow: 1;
-        min-width: 0; /* Allows text to shrink and wrap */
+        min-width: 0;
     }
     .section-title .title-text h2 { font-size: 19px; font-weight: 700; margin:0; }
     .section-title .title-text h3 { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 400; opacity: 0.9; margin:0; }
@@ -169,9 +172,60 @@
     .doctor-card .day .en, .doctor-card .doctor-name .en { font-family: 'Poppins', sans-serif; font-size: 0.85em; font-weight: 400; margin-top: 2px; color: #555;}
     .doctor-card .time { font-weight: 600; font-family: 'Poppins', sans-serif; font-size: 15px; background-color: var(--orange); color: var(--white); padding: 3px 10px; border-radius: 5px; }
     .en { font-family: 'Poppins', sans-serif; font-size: 0.9em; font-weight: 400; margin-top: 2px; }
+    
+    /* --- NEW STYLES FOR CLINIC NAVIGATION BUTTONS --- */
+    #clinic-buttons-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px;
+    }
+    .clinic-nav-button {
+        display: flex;
+        align-items: center;
+        text-align: right;
+        gap: 15px;
+        padding: 15px;
+        background-color: var(--white);
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Cairo', sans-serif;
+    }
+    .clinic-nav-button:hover {
+        border-color: var(--dark-green);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    }
+    .clinic-nav-button.active {
+        border-color: var(--orange);
+        background-color: #fff8f2;
+        box-shadow: 0 0 15px var(--orange-glow);
+    }
+    .clinic-nav-icon {
+        width: 48px;
+        height: 48px;
+        background-color: var(--dark-green);
+        flex-shrink: 0;
+    }
+    .clinic-nav-text {
+        flex-grow: 1;
+    }
+    .clinic-nav-text .ar-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-dark);
+        display: block;
+    }
+    .clinic-nav-text .en-name {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* --- FOOTER AND MAP STYLES --- */
     .footer-image-container { margin: 40px -25px -25px -25px; }
     .footer-image { width: 100%; height: auto; display: block; }
-    
     .location-section { margin-top: 40px; text-align: center; }
     .location-section h2 { font-size: 20px; color: var(--dark-green); margin-bottom: 20px; }
     .location-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
@@ -183,49 +237,6 @@
     .location-map iframe { width: 100%; height: 100%; border: 0; }
     .map-link-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer; }
     .location-address { margin-top: 15px; font-size: 16px; color: var(--text-muted); line-height: 1.7; }
-
-    /* New Styles for Clinic Navigation Buttons */
-    .clinic-nav-button {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        background-color: #f8f9fa;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-align: right;
-        width: 100%;
-        font-family: 'Cairo', sans-serif;
-    }
-    .clinic-nav-button:hover {
-        border-color: var(--dark-green);
-        background-color: var(--white);
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .clinic-nav-icon {
-        width: 40px;
-        height: 40px;
-        background-color: var(--dark-green);
-        flex-shrink: 0;
-    }
-    .clinic-nav-text .ar-name {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-dark);
-        display: block;
-    }
-    .clinic-nav-text .en-name {
-        font-size: 13px;
-        color: var(--text-muted);
-        font-family: 'Poppins', sans-serif;
-    }
-    #clinic-buttons-container {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust grid for new buttons */
-        gap: 10px;
-    }
 
 </style>
 </head>
@@ -271,12 +282,12 @@
     <div class="feature-box" id="clinic-navigation-box">
         <h2>تصفح العيادات مباشرة</h2>
         <p>اضغط على العيادة للانتقال إلى جدول مواعيد الأطباء الخاص بها.</p>
-        <div id="clinic-buttons-container" class="info-grid">
+        <div id="clinic-buttons-container">
             <!-- Clinic buttons will be dynamically inserted here by JavaScript -->
         </div>
     </div>
 
-    <!-- Clinics Content -->
+    <!-- Clinics Content (Initially Hidden) -->
     <div id="clinics-container"></div>
 
     <!-- Map Section -->
@@ -311,7 +322,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // =================================================================================
-    // START: DOCTOR AND CLINIC DATA (CORRECTED AND VERIFIED FROM IMAGE)
+    // DATA SOURCE
     // =================================================================================
     const allClinicsFullData = [
         { id: "الباطنة-والجهاز-الهضمي-والكبد", doctors: [ { name: "د. عبد الرحيم الطيب (اخصائي)", en_name: "Dr. Abdelrahim Eltayeb", schedule: { "السبت": "7 م", "الأربعاء": "7 م" } } ] },
@@ -340,8 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return { ...clinic, doctors: fullData ? fullData.doctors : [] };
     });
     // =================================================================================
-    // END OF DATA
-    // =================================================================================
 
     const clinicsContainer = document.getElementById('clinics-container');
     const clinicButtonsContainer = document.getElementById('clinic-buttons-container');
@@ -350,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
     clinicsDisplayData.forEach(clinic => {
         const button = document.createElement('button');
         button.className = 'clinic-nav-button';
-        button.setAttribute('onclick', `scrollToClinic('${clinic.id}')`);
+        button.dataset.clinicId = clinic.id; // Use data attribute for easier selection
         button.innerHTML = `
             <div class="clinic-nav-icon" style="-webkit-mask-image: url(./icons/${clinic.icon}); mask-image: url(./icons/${clinic.icon});"></div>
             <div class="clinic-nav-text">
@@ -361,6 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clinicButtonsContainer.appendChild(button);
     });
 
+    // Render the hidden clinic sections
     function renderClinics(data) {
         clinicsContainer.innerHTML = '';
         data.forEach(clinic => {
@@ -419,6 +429,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderClinics(clinicsDisplayData);
 
+    // --- NEW LOGIC FOR SHOWING/HIDING CLINICS ---
+    clinicButtonsContainer.addEventListener('click', function(event) {
+        const clickedButton = event.target.closest('.clinic-nav-button');
+        if (clickedButton) {
+            const clinicId = clickedButton.dataset.clinicId;
+            
+            // Handle active state for buttons
+            document.querySelectorAll('.clinic-nav-button').forEach(btn => btn.classList.remove('active'));
+            clickedButton.classList.add('active');
+            
+            showAndScrollToClinic(clinicId);
+        }
+    });
+
+    function showAndScrollToClinic(clinicId) {
+        const allClinicSections = document.querySelectorAll('.clinic-section');
+        const targetSection = document.getElementById(`clinic-${clinicId}`);
+
+        // Hide all other sections
+        allClinicSections.forEach(section => {
+            if (section.id !== `clinic-${clinicId}`) {
+                section.style.display = 'none';
+            }
+        });
+
+        // Show and scroll to the target section
+        if (targetSection) {
+            targetSection.style.display = 'block';
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // --- DOCTOR SEARCH LOGIC (UNCHANGED) ---
     const searchInput = document.getElementById('doctor-search-input');
     const searchBtn = document.getElementById('doctor-search-btn');
     const searchResultsContainer = document.getElementById('search-results-container');
@@ -439,6 +482,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         foundDoctors.push({
                             ...doctor,
                             clinicName: clinic.name,
+                            clinicId: clinic.id,
                             cardId: `doc-${clinic.id}-${index}`
                         });
                     }
@@ -458,7 +502,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <button class="go-to-btn">اذهب إلى الطبيب</button>`;
                 resultItem.querySelector('button').addEventListener('click', () => {
-                    scrollToAndHighlight(doctor.cardId);
+                    // First, show the correct clinic section, then highlight the doctor
+                    showAndScrollToClinic(doctor.clinicId);
+                    setTimeout(() => scrollToAndHighlight(doctor.cardId), 400); // Delay to allow for scroll
                 });
                 searchResultsContainer.appendChild(resultItem);
             });
@@ -475,22 +521,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function scrollToAndHighlight(cardId) {
         const card = document.getElementById(cardId);
         if (card) {
-            document.querySelectorAll('.doctor-card.highlight').forEach(c => c.classList.remove('highlight'));
             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
             card.classList.add('highlight');
             setTimeout(() => card.classList.remove('highlight'), 3000);
         }
     }
-
-    window.scrollToClinic = (clinicId) => {
-        const clinicSection = document.getElementById(`clinic-${clinicId}`);
-        if (clinicSection) {
-            clinicSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            console.error(`Clinic section with id 'clinic-${clinicId}' not found.`);
-        }
-    };
-    
 });
 </script>
 
